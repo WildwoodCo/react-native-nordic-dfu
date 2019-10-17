@@ -205,6 +205,8 @@ RCT_EXPORT_METHOD(startDFU:(NSString *)deviceAddress
       reject(@"nil_file_path", @"Attempted to start DFU with nil filePath", nil);
     } else {
       NSUUID * uuid = [[NSUUID alloc] initWithUUIDString:deviceAddress];
+      
+      [NSThread sleepForTimeInterval: 1]; //Work around for not finding the peripheral in iOS 13
 
       NSArray<CBPeripheral *> * peripherals = [centralManager retrievePeripheralsWithIdentifiers:@[uuid]];
 
@@ -226,6 +228,8 @@ RCT_EXPORT_METHOD(startDFU:(NSString *)deviceAddress
         initiator.delegate = self;
         initiator.progressDelegate = self;
 
+        [NSThread sleepForTimeInterval: 1]; //Work around for being stuck in iOS 13
+        
         DFUServiceController * controller = [initiator start];
       }
     }
