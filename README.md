@@ -1,4 +1,4 @@
-# react-native-nordic-dfu [![Known Vulnerabilities](https://snyk.io/test/github/pilloxa/react-native-nordic-dfu/badge.svg)](https://snyk.io/test/github/pilloxa/react-native-nordic-dfu)
+# react-native-nordic-dfu
 
 ## This fork contains an update of IOS-Pods-DFU-Library version (4.5.1) and added two timeouts to fix firmware uploads on iOS 13
 
