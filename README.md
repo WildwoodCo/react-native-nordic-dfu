@@ -10,7 +10,9 @@ For more info about the DFU process, see: [Resources](#resources)
 ## Installation
 
 Add the following to your package.json dependencies:
-"react-native-nordic-dfu": "ThomasStubbe/react-native-nordic-dfu",
+```
+"react-native-nordic-dfu": "ThomasStubbe/react-native-nordic-dfu"
+```
 
 ### Minimum requirements
 
