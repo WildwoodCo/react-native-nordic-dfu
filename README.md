@@ -1,6 +1,6 @@
 # react-native-nordic-dfu
 
-## This fork contains an update of IOS-Pods-DFU-Library version (4.5.1) and added two timeouts to fix firmware uploads on iOS 13
+## This fork contains an update of IOS-Pods-DFU-Library version (4.5.1) and added two timeouts to fix firmware uploads on iOS 13. This readme also contains a setup to not use !use_frameworks in the pod-file
 
 This library allows you to do a Device Firmware Update (DFU) of your nrf51 or
 nrf52 chip from Nordic Semiconductor. It works for both iOS and Android.
