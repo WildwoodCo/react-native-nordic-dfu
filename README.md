@@ -9,12 +9,8 @@ For more info about the DFU process, see: [Resources](#resources)
 
 ## Installation
 
-Install and link the NPM package per usual with
-
-```bash
-npm install --save react-native-nordic-dfu
-react-native link react-native-nordic-dfu
-```
+Add the following to your package.json dependencies:
+"react-native-nordic-dfu": "ThomasStubbe/react-native-nordic-dfu",
 
 ### Minimum requirements
 
@@ -42,8 +38,9 @@ Add the following to your `Podfile`
 target "YourApp" do
   ...
   
-  use_frameworks!
-  pod "react-native-nordic-dfu", path: "../node_modules/react-native-nordic-dfu"
+  # use_frameworks! # NO NEED TO ENABLE THIS!
+  
+  pod "react-native-nordic-dfu", path: "../node_modules/react-native-nordic-dfu", :modular_headers => true
 
   ...
 end
@@ -61,11 +58,35 @@ Since there's native Swift dependencies you need to set which Swift version your
 
 This library needs access to an instance of `CBCentralManager`, which you most likely will have instantiated already if you're using Bluetooth for other purposes than DFU in your project.
 
-To integrate with your existing Bluetooth setup, call `[RNNordicDfu setCentralManagerGetter:<...>]` with a block argument that returns your `CBCentralManager` instance.
+in AppDelegate.m add:
 
-If you want control over the `CBCentralManager` instance after the DFU process is done you might need to provide the `onDFUComplete` and `onDFUError` callbacks to transfer back delegate control.
+```
+#import "RNNordicDfu.h"
 
-The example project shows how this may be done.
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+
+  //...
+ 
+ 
+  [RNNordicDfu setCentralManagerGetter:^() {
+    return [[CBCentralManager alloc] initWithDelegate:nil queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)];
+  }];
+  
+  // Reset manager delegate since the Nordic DFU lib "steals" control over it
+  [RNNordicDfu setOnDFUComplete:^() {
+    NSLog(@"onDFUComplete");
+  }];
+  [RNNordicDfu setOnDFUError:^() {
+    NSLog(@"onDFUError");
+  }];
+  
+  
+  //...
+
+```
 
 ## API
 
