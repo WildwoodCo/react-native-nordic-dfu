@@ -226,6 +226,7 @@ RCT_EXPORT_METHOD(startDFU:(NSString *)deviceAddress
 
         initiator.logger = self;
         initiator.delegate = self;
+        initiator.alternativeAdvertisingNameEnabled = false;
         initiator.progressDelegate = self;
 
         [NSThread sleepForTimeInterval: 1]; //Work around for being stuck in iOS 13
