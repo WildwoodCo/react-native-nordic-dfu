@@ -3,12 +3,17 @@ package com.pilloxa.dfu;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.RCTNativeAppEventEmitter;
+
+import java.io.File;
+import java.net.URI;
+
 import no.nordicsemi.android.dfu.*;
 
 public class RNNordicDfuModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
@@ -31,6 +36,9 @@ public class RNNordicDfuModule extends ReactContextBaseJavaModule implements Lif
 
     @ReactMethod
     public void startDFU(String address, String name, String filePath, Promise promise) {
+
+        //this url trickery seems to be needed for our app (Spark)
+        Uri myUri = Uri.parse(filePath);
         mPromise = promise;
         final DfuServiceInitiator starter = new DfuServiceInitiator(address)
                 .setKeepBond(false);
@@ -38,7 +46,8 @@ public class RNNordicDfuModule extends ReactContextBaseJavaModule implements Lif
             starter.setDeviceName(name);
         }
         starter.setUnsafeExperimentalButtonlessServiceInSecureDfuEnabled(true);
-        starter.setZip(filePath);
+        starter.setZip(myUri);
+
         final DfuServiceController controller = starter.start(this.reactContext, DfuService.class);
     }
 
